@@ -9,9 +9,10 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <a href="Registration.aspx">Registration</a><br />
-            <br />
-            <a href="">Login</a></div>
+            <asp:Button ID="register" runat="server" OnClick="register_Click" Text="Register" />
+&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="login" runat="server" OnClick="login_Click" Text="Login" />
+        </div>
     </form>
 </body>
 </html>

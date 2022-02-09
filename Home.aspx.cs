@@ -13,5 +13,15 @@ namespace appsec
         {
 
         }
+
+        protected void register_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Registration.aspx", false);
+        }
+
+        protected void login_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Login.aspx", false);
+        }
     }
 }
