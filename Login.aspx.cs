@@ -21,8 +21,8 @@ namespace appsec
         }
         protected void LoginMe(object sender, EventArgs e)
         {
-            string pwd = pwdText.Text.ToString().Trim();
-            string userid = emailText.Text.ToString().Trim();
+            string pwd = HttpUtility.HtmlEncode(pwdText.Text.ToString().Trim());
+            string userid = HttpUtility.HtmlEncode(emailText.Text.ToString().Trim());
             SHA512Managed hashing = new SHA512Managed();
             string dbHash = getDBHash(userid);
             string dbSalt = getDBSalt(userid);
@@ -34,7 +34,12 @@ namespace appsec
                     string pwdWithSalt = pwd + dbSalt;
                     byte[] hashWithSalt = hashing.ComputeHash(Encoding.UTF8.GetBytes(pwdWithSalt));
                     string userHash = Convert.ToBase64String(hashWithSalt);
-                    if (userHash.Equals(dbHash))
+                    if (attempts >= 3)
+                    {
+                        errorMsg.Text = "Your account has been locked out. Please contact a System Administrator for further instructions";
+                        return;
+                    }
+                    else if (userHash.Equals(dbHash))
                     {
                         Session["LoggedIn"] = userid;
                         string guid = Guid.NewGuid().ToString();
@@ -71,11 +76,7 @@ namespace appsec
                         errorMsg.Text = "Login has failed. Please try again.";
                         return;
                     }
-                    else if (attempts >= 3) 
-                    {
-                        errorMsg.Text = "Your account has been locked out. Please contact a System Administrator for further instructions";
-                        return;
-                    }
+                    
                 } 
 
             }

@@ -12,6 +12,8 @@
             <asp:Label ID="lblMsg" runat="server" Text="Label"></asp:Label>
             <br />
             <br />
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Back to home" />
+            <br />
             <br />
             <asp:Button ID="logoutBtn" runat="server" Text="Log Out" onclick="LogoutMe"/>
         </div>

@@ -149,20 +149,21 @@ namespace appsec
             {
                 using (SqlConnection con = new SqlConnection(MYDBConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@Email, @First_name, @Last_name, @PasswordSalt, @PasswordHash, @CC, @DOB, @IV, @Key)"))
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO Account VALUES(@Email, @First_name, @Last_name, @PasswordSalt, @PasswordHash, @CC, @DOB, @IV, @Key, @LoginAttempts)"))
                     {
                         using (SqlDataAdapter sda = new SqlDataAdapter())
                         {
                             cmd.CommandType = CommandType.Text;
-                            cmd.Parameters.AddWithValue("@Email", emailText.Text.Trim());
-                            cmd.Parameters.AddWithValue("@First_name", FNText.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Last_name", LNText.Text.Trim());
+                            cmd.Parameters.AddWithValue("@Email", HttpUtility.HtmlEncode(emailText.Text.Trim()));
+                            cmd.Parameters.AddWithValue("@First_name", HttpUtility.HtmlEncode(FNText.Text.Trim()));
+                            cmd.Parameters.AddWithValue("@Last_name", HttpUtility.HtmlEncode(LNText.Text.Trim()));
                             cmd.Parameters.AddWithValue("@PasswordSalt", salt);
                             cmd.Parameters.AddWithValue("@PasswordHash", finalHash);
-                            cmd.Parameters.AddWithValue("@CC", Convert.ToBase64String(encryptData(CCText.Text.Trim())));
-                            cmd.Parameters.AddWithValue("@DOB", DOB.Text.Trim());
+                            cmd.Parameters.AddWithValue("@CC", Convert.ToBase64String(encryptData(HttpUtility.HtmlEncode(CCText.Text.Trim()))));
+                            cmd.Parameters.AddWithValue("@DOB", HttpUtility.HtmlEncode(DOB.Text.Trim()));
                             cmd.Parameters.AddWithValue("@IV", Convert.ToBase64String(IV));
                             cmd.Parameters.AddWithValue("@Key", Convert.ToBase64String(Key));
+                            cmd.Parameters.AddWithValue("LoginAttempts", 0);
                             cmd.Connection = con;
                             con.Open();
                             cmd.ExecuteNonQuery();  
@@ -205,7 +206,7 @@ namespace appsec
             string captchaResponse = Request.Form["g-recaptcha-response"];
 
             //To send a GET request to Google along with the response and Secret key.
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://www.google.com/recaptcha/api/siteverify?secret=6LeKsWYeAAAAANDFyYl3PM_v6qg2KOL7MVcayHXF &response=" + captchaResponse);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://www.google.com/recaptcha/api/siteverify?secret=  &response=" + captchaResponse);
 
 
             try

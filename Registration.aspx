@@ -40,33 +40,28 @@
             } else {
                 document.getElementById("btn_submit").disabled = false;
             }
-            if (str.search() == -1) {
+            if (str.length == 0) {
                 document.getElementById("btn_submit").disabled = true;
             }
         }
         function ValidateFN() {
             var str = document.getElementById('<%=FNText.ClientID%>').value;
-            if (str.search() == -1) {
+            if (str.length == 0) {
                 document.getElementById("btn_submit").disabled = true;
-            }
-            if (str.search() == 1){
+            } else {
                 document.getElementById("btn_submit").disabled = false;
             }
         }
         function ValidateLN() {
             var str = document.getElementById('<%=LNText.ClientID%>').value;
-            if (str.search() == -1) {
+            if (str.length == 0) {
                 document.getElementById("btn_submit").disabled = true;
-            }
-            if (str.search() == 1) {
+            } else {
                 document.getElementById("btn_submit").disabled = false;
             }
         }
         function ValidateCC() {
             var str = document.getElementById('<%=CCText.ClientID%>').value;
-            if (str.search() == -1) {
-                document.getElementById("btn_submit").disabled = true;
-            }
             if (str.length < 16) {
                 document.getElementById("btn_submit").disabled = true;
             } else {
@@ -74,7 +69,7 @@
             }
         }
         grecaptcha.ready(function () {
-            grecaptcha.execute('6LeKsWYeAAAAACytxBDCDGmLcXJS6LJniw14oosf', { action: 'R' }).then(function (token) {
+            grecaptcha.execute('', { action: 'R' }).then(function (token) {
                 document.getElementById("g-recaptcha-response").value = token;
             });
         });
@@ -166,7 +161,7 @@
                 <tr>
                     <td class="auto-style2">&nbsp;</td>
                     <td class="auto-style5">
-                        <asp:Button ID="btn_submit" runat="server" Text="Submit" OnClick="btn_submit_Click"/>
+                        <asp:Button ID="btn_submit" runat="server" Text="Submit" OnClick="btn_submit_Click" disabled="true"/>
                     </td>
                     <td class="auto-style3">
                         <asp:Label ID="lbl_Error" runat="server" Text="Error messages will be displayed here:"></asp:Label>
